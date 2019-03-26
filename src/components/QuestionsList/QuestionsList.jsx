@@ -10,7 +10,7 @@ class QuestionsList extends Component {
         questions: getQuestions(),
         searchString: '',
         filteredList: [],
-        updated: 'Vote'
+        updated: false
     }
 
     onSearchInputChange = (event) => {
@@ -32,18 +32,18 @@ class QuestionsList extends Component {
 
     handleVoteClick = (id) => {
 
-        if (this.state.updated === 'Vote') {
+        if (!this.state.updated) {
             const copy = [...this.state.questions];
             copy
                 .find(element => element._id === id)
                 .vote += 1;
-            this.setState({questions: copy, updated: 'Unvote'});
+            this.setState({questions: copy, updated: true});
         } else {
             const copy = [...this.state.questions];
             copy
                 .find(element => element._id === id)
                 .vote -= 1;
-            this.setState({questions: copy, updated: 'Vote'});
+            this.setState({questions: copy, updated: false});
         }
     }
 

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Topbar from '../TopBar';
+
 import QuestionList from './QuestionsList/QuestionsList'
 
 const backgroundShape = require('../images/shape.svg');
@@ -118,7 +118,8 @@ class Main extends Component {
         return (
             <React.Fragment>
                 <CssBaseline/>
-                <Topbar/>
+
+                <Link to="/questions/new">Create New</Link>
                 <QuestionList/>
             </React.Fragment>
         )

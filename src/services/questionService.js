@@ -25,3 +25,14 @@ let questions = [
 export function getQuestions() {
     return questions;
 }
+
+export function saveQuestion(q) {
+    const newQuestion = {
+        _id: questions.length + 1,
+        eventid: "1",
+        description: q,
+        vote: 1
+    }
+    questions.push(newQuestion)
+    return newQuestion
+}

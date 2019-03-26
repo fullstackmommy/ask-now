@@ -13,7 +13,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Menu from './Menu'
+import Menu from './components/Menu'
 
 const logo = require('./images/logo.svg');
 
@@ -22,7 +22,7 @@ const styles = theme => ({
         position: 'relative',
         boxShadow: 'none',
         borderBottom: `1px solid ${theme.palette.grey['100']}`,
-        backgroundColor: 'white'
+        backgroundColor: 'green'
     },
     inline: {
         display: 'inline'
@@ -59,6 +59,7 @@ const styles = theme => ({
     tagline: {
         display: 'inline-block',
         marginLeft: 10,
+        color: '#ffffff',
         [
             theme
                 .breakpoints
@@ -151,7 +152,7 @@ class Topbar extends Component {
                             <div className={classes.inline}>
                                 <Typography variant="h6" color="inherit" noWrap>
                                     <Link to='/' className={classes.link}>
-                                        <img width={20} src={logo} alt=""/>
+                                        <img width={50} src={logo} alt=""/>
                                         <span className={classes.tagline}>AskNow</span>
                                     </Link>
                                 </Typography>
@@ -160,7 +161,7 @@ class Topbar extends Component {
                                 <React.Fragment>
                                     <div className={classes.productLogo}>
                                         <Typography>
-                                            Shoot your question or forever hold your peace
+                                            <span className={classes.tagline}>Ask or forever hold your peace</span>
                                         </Typography>
                                     </div>
                                     <div className={classes.iconContainer}>
