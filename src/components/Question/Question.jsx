@@ -26,29 +26,36 @@ export class Question extends Component {
   }
 
   render() {
-    const {classes, question, handleVoteClick, handleDelete} = this.props
+    const {
+      classes,
+      description,
+      vote,
+      id,
+      handleVoteClick,
+      handleDelete
+    } = this.props
 
     return (
       <div>
         <Card>
           <CardContent>
             <Typography component="h2">
-              {question.description}
+              {description}
             </Typography>
             <Typography component="p">
-              Number of votes: {question.vote}
+              Number of votes: {vote}
             </Typography>
           </CardContent>
           <CardActions>
             <div className={classes.alignRight}>
-              <Button onClick={() => handleDelete(question._id)}>
+              <Button onClick={() => handleDelete(id)}>
                 Delete
               </Button>
               <Button
                 variant="contained"
                 size="small"
                 color="primary"
-                onClick={() => handleVoteClick(question._id)}>
+                onClick={() => handleVoteClick(id)}>
                 {this.setVoteText()}
               </Button>
             </div>

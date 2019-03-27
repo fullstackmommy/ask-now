@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 class QuestionsList extends Component {
   state = {
-    questions: getQuestions(),
+    questions: [],
     searchString: '',
     filteredList: [],
     updated: false
@@ -42,7 +42,7 @@ class QuestionsList extends Component {
       this.setState({filteredList: filtered})
     } else {
       this.setState({searchString: ''})
-      const allQuestions = getQuestions()
+      const allQuestions = getQuestions(1)
       this.setState({filteredList: allQuestions})
     }
 
@@ -53,13 +53,13 @@ class QuestionsList extends Component {
     if (!this.state.updated) {
       const copy = [...this.state.questions];
       copy
-        .find(element => element._id === id)
+        .find(element => element.id === id)
         .vote += 1;
       this.setState({questions: copy, updated: true});
     } else {
       const copy = [...this.state.questions];
       copy
-        .find(element => element._id === id)
+        .find(element => element.id === id)
         .vote -= 1;
       this.setState({questions: copy, updated: false});
     }
@@ -67,12 +67,12 @@ class QuestionsList extends Component {
 
   handleDelete = (id) => {
     deleteQuestion(id)
-    this.setState({questions: getQuestions(), filteredList: getQuestions()});
+    this.setState({questions: getQuestions(1), filteredList: getQuestions(1)});
   }
 
-  componentDidMount() {
-    const allQuestions = getQuestions()
-    this.setState({filteredList: allQuestions});
+  async componentDidMount() {
+    const allQuestions = await getQuestions(1)
+    this.setState({questions: allQuestions, filteredList: allQuestions});
   }
 
   render() {
@@ -112,11 +112,12 @@ class QuestionsList extends Component {
                   .state
                   .filteredList
                   .map(currentQuestion => (
-                    <Grid key={currentQuestion._id} item xs={12} sm={6} lg={4} xl={3}>
+                    <Grid key={currentQuestion.id} item xs={12} sm={6} lg={4} xl={3}>
                       <Question
-                        key={currentQuestion._id}
-                        id={currentQuestion._id}
-                        question={currentQuestion}
+                        key={currentQuestion.id}
+                        id={currentQuestion.id}
+                        description={currentQuestion.description}
+                        vote={currentQuestion.vote}
                         updated={this.state.updated}
                         handleVoteClick={this.handleVoteClick}
                         handleDelete={this.handleDelete}/>
