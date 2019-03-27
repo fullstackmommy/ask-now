@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, HashRouter, Switch} from 'react-router-dom'
+import {Route, BrowserRouter, Switch} from 'react-router-dom'
 /* import Dashboard from './components/Dashboard'
 import Wizard from './components/Wizard'
 import Cards from './components/Cards'
@@ -11,7 +11,7 @@ import QuestionForm from './components/QuestionForm/QuestionForm'
 
 import Topbar from './TopBar';
 export default props => (
-  <HashRouter>
+  <BrowserRouter>
     <Topbar/>
     <Switch>
       <Route
@@ -20,5 +20,5 @@ export default props => (
         render={props => <QuestionForm {...props} returnPath="/"/>}/>
       <Route exact path='/' component={Main}/>
     </Switch>
-  </HashRouter>
+  </BrowserRouter>
 )

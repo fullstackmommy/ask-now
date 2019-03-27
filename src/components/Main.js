@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import Grid from '@material-ui/core/Grid';
 import QuestionList from './QuestionsList/QuestionsList'
 
 const backgroundShape = require('../images/shape.svg');
@@ -114,13 +114,14 @@ class Main extends Component {
     }
 
     render() {
-
+        const {classes} = this.props
         return (
             <React.Fragment>
                 <CssBaseline/>
-
-                <Link to="/questions/new">Create New</Link>
-                <QuestionList/>
+                <div className={classes.root}>
+                    <Grid container justify="center">
+                        <QuestionList/></Grid>
+                </div>
             </React.Fragment>
         )
     }

@@ -4,6 +4,15 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+  alignRight: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+});
 
 export class Question extends Component {
   state = {
@@ -17,7 +26,7 @@ export class Question extends Component {
   }
 
   render() {
-    const {question, handleVoteClick} = this.props
+    const {classes, question, handleVoteClick, handleDelete} = this.props
 
     return (
       <div>
@@ -31,16 +40,18 @@ export class Question extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button>
-              Delete
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={() => handleVoteClick(question._id)}>
-              {this.setVoteText()}
-            </Button>
+            <div className={classes.alignRight}>
+              <Button onClick={() => handleDelete(question._id)}>
+                Delete
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={() => handleVoteClick(question._id)}>
+                {this.setVoteText()}
+              </Button>
+            </div>
           </CardActions>
         </Card>
       </div>
@@ -49,4 +60,8 @@ export class Question extends Component {
 
 }
 
-export default Question
+Question.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Question)

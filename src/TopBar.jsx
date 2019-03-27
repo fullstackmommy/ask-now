@@ -22,7 +22,7 @@ const styles = theme => ({
         position: 'relative',
         boxShadow: 'none',
         borderBottom: `1px solid ${theme.palette.grey['100']}`,
-        backgroundColor: 'green'
+        backgroundColor: '#0288D1'
     },
     inline: {
         display: 'inline'
@@ -55,6 +55,9 @@ const styles = theme => ({
         ]: {
             paddingTop: '1.5em'
         }
+    },
+    grow: {
+        flexGrow: 1
     },
     tagline: {
         display: 'inline-block',
@@ -161,9 +164,10 @@ class Topbar extends Component {
                                 <React.Fragment>
                                     <div className={classes.productLogo}>
                                         <Typography>
-                                            <span className={classes.tagline}>Ask or forever hold your peace</span>
+                                            <span className={classes.tagline}>... or forever hold your peace</span>
                                         </Typography>
                                     </div>
+                                    <div className={classes.grow}>&nbsp;</div>
                                     <div className={classes.iconContainer}>
                                         <IconButton
                                             onClick={this.mobileMenuOpen}
