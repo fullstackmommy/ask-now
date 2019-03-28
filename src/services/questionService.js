@@ -1,48 +1,23 @@
-//const axios = require('axios');
-
-let questions = [
-    {
-        id: "1",
-        eventid: "1",
-        description: "How do you select the specimens?",
-        vote: 10
-    }, {
-        id: "2",
-        eventid: "1",
-        description: "How do you prepare the specimens?",
-        vote: 1
-    }, {
-        id: "3",
-        eventid: "1",
-        description: "Why can't we use flash when taking pictures?",
-        vote: 5
-    }, {
-        id: "4",
-        eventid: "1",
-        description: "Why the specimens don't turn mouldy over time?",
-        vote: 20
-    }
-];
+//const productionURL = "https://asknow-api.herokuapp.com/api/v1"
+const devURL = "http://localhost:8080/api/v1"
 
 export async function getQuestions(eventId) {
-    const response = await fetch(`https://asknow-api.herokuapp.com/api/v1/events/${eventId}`)
+    const response = await fetch(`${devURL}/events/${eventId}/questions`)
     const data = await response.json();
-    return data.questions;
+    return data;
 }
 
-export function saveQuestion(questionDesc) {
-    const newQuestion = {
-        id: questions.length + 1,
-        eventid: "1",
-        description: questionDesc,
-        vote: 1
-    }
-    questions.push(newQuestion)
-    return newQuestion
+export async function saveQuestion(questionDesc, eventId) {
+    await fetch(`${devURL}/events/${eventId}/questions/`, {
+        method: 'POST',
+        headers: new Headers({'Content-Type': 'application/json'}),
+        body: JSON.stringify({description: questionDesc, event: eventId})
+    }).then((res) => res.json()).catch((err) => console.log(err))
 }
 
-export function deleteQuestion(id) {
-    const found = questions.find(question => question.id === id);
-    questions = questions.filter(question => question.id !== id);
-    return found;
+export async function deleteQuestion(qid, eventId) {
+    await fetch(`${devURL}/events/${eventId}/questions/${qid}`, {
+        method: 'DELETE',
+        headers: new Headers({'Content-Type': 'application/json'})
+    }).catch((err) => console.log(err))
 }
