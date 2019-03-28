@@ -6,9 +6,10 @@ import Cards from './components/Cards'
 
 import Signup from './components/Signup'
 import ScrollToTop from './components/ScrollTop' */
-import Main from './components/Main'
-import QuestionForm from './components/QuestionForm/QuestionForm'
 import Topbar from './TopBar';
+import Main from './components/Main'
+import Login from './components/Login'
+import QuestionForm from './components/QuestionForm/QuestionForm'
 import QuestionsList from './components/QuestionsList/QuestionsList';
 
 export default props => (
@@ -20,6 +21,7 @@ export default props => (
         exact
         path='/events/:id'
         render={props => <QuestionsList {...props} returnPath="/events"/>}/>
+      <Route exact path='/login' component={Login}/>
       <Route exact path='/' component={Main}/>
     </Switch>
   </BrowserRouter>

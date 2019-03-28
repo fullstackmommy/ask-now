@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import Question from '../Question/Question'
 
-import {getQuestions, deleteQuestion, saveQuestion} from '../../services/questionService'
+import {getQuestions, deleteQuestion, saveQuestion, updateQuestionVote} from '../../services/questionService'
 
 const styles = theme => ({
   button: {
@@ -26,9 +26,6 @@ const styles = theme => ({
   headerBar: {
     display: 'flex',
     justifyContent: 'space-between'
-  },
-  textField: {
-    width: 200
   }
 });
 class QuestionsList extends Component {
@@ -47,31 +44,26 @@ class QuestionsList extends Component {
         .state
         .questions
         .filter(q => q.description.toLowerCase().includes(this.state.searchString.toLowerCase()))
-      console.log(this.state.filtered)
+
       this.setState({filteredList: filtered})
     } else {
       this.setState({searchString: ''})
       const allQuestions = await getQuestions(this.props.match.params.id)
-      this.setState({filteredList: allQuestions})
+      this.setState({questions: allQuestions, filteredList: allQuestions})
     }
 
   }
 
-  handleVoteClick = (id) => {
-
-    if (!this.state.updated) {
-      const copy = [...this.state.questions];
-      copy
-        .find(element => element.id === id)
-        .vote += 1;
-      this.setState({questions: copy, updated: true});
-    } else {
-      const copy = [...this.state.questions];
-      copy
-        .find(element => element.id === id)
-        .vote -= 1;
-      this.setState({questions: copy, updated: false});
-    }
+  handleVoteClick = async(id) => {
+    const copy = [...this.state.questions];
+    copy
+      .find(element => element.id === id)
+      .vote += 1;
+    const newVote = copy
+      .find(element => element.id === id)
+      .vote
+    updateQuestionVote(id, this.props.match.params.id, newVote)
+    this.setState({questions: copy})
   }
 
   handleDelete = async(id) => {
@@ -83,6 +75,8 @@ class QuestionsList extends Component {
   onNewInputChange = (event) => {
     if (event.target.value) {
       this.setState({description: event.target.value})
+    } else {
+      this.setState({description: ''})
     }
   }
 
@@ -97,31 +91,23 @@ class QuestionsList extends Component {
   fetchQuestions = async() => {
     try {
       const allQuestions = await getQuestions(this.props.match.params.id)
-      if (allQuestions.length === this.state.filteredList) {
-        this.setState({questions: allQuestions, filteredList: allQuestions});
-      } else 
-        this.setState({questions: allQuestions});
-      }
-    catch (error) {
-      console.log(error)
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      const allQuestions = await getQuestions(this.props.match.params.id)
       this.setState({questions: allQuestions, filteredList: allQuestions});
     } catch (error) {
       console.log(error)
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidMount() {
+    this.fetchQuestions()
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
     this.fetchQuestions()
   }
 
   render() {
     const {classes} = this.props
+
     return (
       <div>
         {this.state.questions === null && <p>Loading questions...</p>}
@@ -154,6 +140,7 @@ class QuestionsList extends Component {
                         <Typography component="h2">
                           <TextField
                             className={classes.textField}
+                            fullWidth
                             id="outlined-questionDesc"
                             label="Question"
                             value={this.state.description}

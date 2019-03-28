@@ -4,7 +4,9 @@ const devURL = "http://localhost:8080/api/v1"
 export async function getQuestions(eventId) {
     const response = await fetch(`${devURL}/events/${eventId}/questions`)
     const data = await response.json();
-    return data;
+    return data.sort((a, b) => (a.vote > b.vote)
+        ? -1
+        : 1);
 }
 
 export async function saveQuestion(questionDesc, eventId) {
@@ -19,5 +21,13 @@ export async function deleteQuestion(qid, eventId) {
     await fetch(`${devURL}/events/${eventId}/questions/${qid}`, {
         method: 'DELETE',
         headers: new Headers({'Content-Type': 'application/json'})
+    }).catch((err) => console.log(err))
+}
+
+export async function updateQuestionVote(qid, eventId, newVote) {
+    await fetch(`${devURL}/events/${eventId}/questions/${qid}`, {
+        method: 'PUT',
+        headers: new Headers({'Content-Type': 'application/json'}),
+        body: JSON.stringify({vote: newVote})
     }).catch((err) => console.log(err))
 }
