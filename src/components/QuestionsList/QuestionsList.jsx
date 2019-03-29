@@ -29,6 +29,8 @@ const styles = theme => ({
   }
 });
 class QuestionsList extends Component {
+  _isMounted = false
+
   state = {
     questions: [],
     searchString: '',
@@ -73,18 +75,26 @@ class QuestionsList extends Component {
   fetchQuestions = async() => {
     try {
       const allQuestions = await getQuestions(this.props.match.params.id)
-      this.setState({questions: allQuestions});
-    } catch (error) {
+      if (this._isMounted) 
+        this.setState({questions: allQuestions});
+      }
+    catch (error) {
       console.log(error)
     }
   }
 
   async componentDidMount() {
+    this._isMounted = true
     this.fetchQuestions()
   }
 
   async componentDidUpdate(prevProps, prevState) {
+    this._isMounted = true
     this.fetchQuestions()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

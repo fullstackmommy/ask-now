@@ -45,9 +45,6 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  stepGrid: {
-    width: '80%'
-  },
   buttonBar: {
     marginTop: 32,
     display: 'flex',
@@ -56,51 +53,36 @@ const styles = theme => ({
   button: {
     backgroundColor: theme.palette.primary['A100']
   },
-  backButton: {
-    marginRight: theme.spacing.unit
-  },
-  outlinedButtom: {
-    textTransform: 'uppercase',
-    margin: theme.spacing.unit
-  },
-  stepper: {
-    backgroundColor: 'transparent'
-  },
   paper: {
     padding: theme.spacing.unit * 3,
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
-  topInfo: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 42
-  },
   formControl: {
     width: '100%'
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
   }
 })
 
 class Main extends Component {
 
   state = {
-    activeStep: 0,
     eventId: '',
-    labelWidth: 0
+    error: ''
   }
 
   componentDidMount() {}
 
   handleNext = async() => {
-    const isValid = await isValidEvent(this.state.eventId)
-    if (!isValid) 
-      this.props.history.push('/')
-    if (isValid) 
-      this.props.history.push(`/events/${this.state.eventId}`)
+    isValidEvent(this.state.eventId).then((data) => {
+      if (data.error) {
+        this.setState({error: data.error})
+      } else {
+        this
+          .props
+          .history
+          .push(`/events/${this.state.eventId}`)
+      }
+    })
   };
 
   handleChange = event => {
@@ -109,17 +91,9 @@ class Main extends Component {
     });
   };
 
-  stepActions() {
-    if (this.state.activeStep === 0) {
-      return 'Submit';
-    }
-    return 'Next';
-  }
-
   render() {
 
     const {classes} = this.props;
-    const {activeStep} = this.state;
 
     return (
       <React.Fragment>
@@ -137,48 +111,53 @@ class Main extends Component {
                   <img width={100} height={100} src={logo} alt=""/>
                 </div>
                 <div className={classes.stepContainer}>
-                  {activeStep === 0 && (
-                    <div className={classes.smallContainer}>
-                      <Paper className={classes.paper}>
+
+                  <div className={classes.smallContainer}>
+                    <Paper className={classes.paper}>
+                      <div>
                         <div>
-                          <div>
-                            <Typography
-                              style={{
-                              marginBottom: 20
-                            }}
-                              color='secondary'
-                              gutterBottom>
-                              Enter your event code
-                            </Typography>
-                            <FormControl variant="outlined" className={classes.formControl}>
-                              <TextField
-                                name='eventId'
-                                label='Event Code'
-                                value={this.state.eventId}
-                                onChange={this.handleChange}
-                                margin='normal'/>
-                            </FormControl>
-                          </div>
+                          <Typography
+                            style={{
+                            marginBottom: 20
+                          }}
+                            color='secondary'
+                            gutterBottom>
+                            Enter your event code
+                          </Typography>
+                          <FormControl variant="outlined" className={classes.formControl}>
+                            <TextField
+                              name='eventId'
+                              label='Event Code'
+                              value={this.state.eventId}
+                              onChange={this.handleChange}
+                              margin='normal'/>
+                            <br/> {this.state.error && (
+                              <Typography component="p" color="error">
+                                {this.state.error}
+                              </Typography>
+                            )
+}
+                          </FormControl>
                         </div>
-                        <div className={classes.buttonBar}>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleNext}
-                            size='large'
-                            style={this.state.eventId.length
-                            ? {
-                              background: classes.button,
-                              color: 'white'
-                            }
-                            : {}}
-                            disabled={!this.state.eventId.length}>
-                            Submit
-                          </Button>
-                        </div>
-                      </Paper>
-                    </div>
-                  )}
+                      </div>
+                      <div className={classes.buttonBar}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={this.handleNext}
+                          size='large'
+                          style={this.state.eventId.length
+                          ? {
+                            background: classes.button,
+                            color: 'white'
+                          }
+                          : {}}
+                          disabled={!this.state.eventId.length}>
+                          Submit
+                        </Button>
+                      </div>
+                    </Paper>
+                  </div>
                 </div>
               </Grid>
             </Grid>

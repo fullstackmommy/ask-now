@@ -6,7 +6,8 @@ export async function isValidEvent(eventId) {
         const response = await fetch(`${devURL}/events/${eventId}`)
         return await response.json()
     } catch (e) {
-        console.log('Invalid event')
+        console.error(e)
+        alert('Please enter valid event code')
     }
 }
 
