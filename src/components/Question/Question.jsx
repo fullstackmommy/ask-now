@@ -4,7 +4,6 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -66,9 +65,5 @@ export class Question extends Component {
   }
 
 }
-
-Question.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(Question)
