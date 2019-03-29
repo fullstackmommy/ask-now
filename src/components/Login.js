@@ -7,18 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import FormControl from '@material-ui/core/FormControl';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DoneIcon from '@material-ui/icons/Done';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Fade from '@material-ui/core/Fade';
+
 import Back from './common/Back';
+import {isAuthenticated} from '../services/eventService';
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -95,28 +87,29 @@ const styles = theme => ({
   }
 })
 
-const getSteps = () => {
-  return ['User', 'Signin', 'Permission'];
-}
-
-class Signup extends Component {
+class Login extends Component {
 
   state = {
     activeStep: 0,
     username: '',
     password: '',
-    loading: true,
     labelWidth: 0
   }
 
   componentDidMount() {}
 
-  handleNext = () => {
+  handleNext = async() => {
     this.setState(state => ({
       activeStep: state.activeStep + 1
     }));
-    if (this.state.activeStep === 2) {
-      setTimeout(() => this.props.history.push('/'), 5000)
+    if (this.state.activeStep === 1) {
+      const user = await isAuthenticated(this.state.username, this.state.password)
+      console.log(user)
+      if (user) 
+        console.log('valid')
+      else 
+        console.log('invalid')
+      setTimeout(() => this.props.history.push('/dashboard'), 3000)
     }
   };
 
@@ -140,20 +133,13 @@ class Signup extends Component {
     if (this.state.activeStep === 0) {
       return 'Sign in';
     }
-    if (this.state.activeStep === 1) {
-      return 'Next';
-    }
-    if (this.state.activeStep === 2) {
-      return 'Accept';
-    }
     return 'Next';
   }
 
   render() {
 
     const {classes} = this.props;
-    const steps = getSteps();
-    const {activeStep, loading} = this.state;
+    const {activeStep} = this.state;
 
     return (
       <React.Fragment>
@@ -172,22 +158,6 @@ class Signup extends Component {
                   <img width={100} height={100} src={logo} alt=""/>
                 </div>
                 <div className={classes.stepContainer}>
-                  <div className={classes.stepGrid}>
-                    <Stepper
-                      classes={{
-                      root: classes.stepper
-                    }}
-                      activeStep={activeStep}
-                      alternativeLabel>
-                      {steps.map(label => {
-                        return (
-                          <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                          </Step>
-                        );
-                      })}
-                    </Stepper>
-                  </div>
                   {activeStep === 0 && (
                     <div className={classes.smallContainer}>
                       <Paper className={classes.paper}>
@@ -211,156 +181,51 @@ class Signup extends Component {
                               <TextField
                                 name='password'
                                 label='Password'
+                                type='password'
                                 value={this.state.password}
                                 onChange={this.handleChange}
                                 margin='normal'/>
                             </FormControl>
                           </div>
                         </div>
-                      </Paper>
-                    </div>
-                  )}
-                  {activeStep === 1 && (
-                    <div className={classes.smallContainer}>
-                      <Paper className={classes.paper}>
-                        <Grid item container xs={12}>
-                          <Grid item xs={12}>
-                            <Typography variant="subtitle1" gutterBottom>
-                              Sign & confirm
-                            </Typography>
-                            <Typography variant="body1" gutterBottom></Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
-                    </div>
-                  )}
-                  {activeStep === 2 && (
-                    <div className={classes.smallContainer}>
-                      <Paper className={classes.paper}>
-                        <div>
-                          <div
-                            style={{
-                            marginBottom: 32
-                          }}>
-                            <Typography variant="subtitle1" gutterBottom>
-                              Events
-                            </Typography>
-                            <Typography variant="body1" gutterBottom>
-                              Start managing events
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography color='secondary' gutterBottom>
-                              Events
-                            </Typography>
-                            <List component="nav">
-                              <ListItem>
-                                <ListItemIcon>
-                                  <DoneIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="Event 1"/>
-                              </ListItem>
-                              <ListItem>
-                                <ListItemIcon>
-                                  <DoneIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="Event 2"/>
-                              </ListItem>
-                            </List>
-                          </div>
+                        <div className={classes.buttonBar}>
+                          {activeStep !== 2
+                            ? (
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className={classes.backButton}
+                                size='large'>
+                                Back
+                              </Button>
+                            )
+                            : (
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className={classes.backButton}
+                                size='large'>
+                                Cancel
+                              </Button>
+                            )}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleNext}
+                            size='large'
+                            style={this.state.username.length
+                            ? {
+                              background: classes.button,
+                              color: 'white'
+                            }
+                            : {}}
+                            disabled={!this.state.username.length}>
+                            {this.stepActions()}
+                          </Button>
                         </div>
                       </Paper>
                     </div>
                   )}
-                  {activeStep === 3 && (
-                    <div className={classes.bigContainer}>
-                      <Paper className={classes.paper}>
-                        <div
-                          style={{
-                          display: 'flex',
-                          justifyContent: 'center'
-                        }}>
-                          <div
-                            style={{
-                            width: 380,
-                            textAlign: 'center'
-                          }}>
-                            <div
-                              style={{
-                              marginBottom: 32
-                            }}>
-                              <Typography
-                                variant="h6"
-                                style={{
-                                fontWeight: 'bold'
-                              }}
-                                gutterBottom>
-                                Retrieving your event
-                              </Typography>
-                              <Typography variant="body1" gutterBottom>
-                                We are processing your request
-                              </Typography>
-                            </div>
-                            <div>
-                              <Fade
-                                in={loading}
-                                style={{
-                                transitionDelay: loading
-                                  ? '500ms'
-                                  : '0ms'
-                              }}
-                                unmountOnExit>
-                                <CircularProgress
-                                  style={{
-                                  marginBottom: 32,
-                                  width: 100,
-                                  height: 100
-                                }}/>
-                              </Fade>
-                            </div>
-                          </div>
-                        </div>
-                      </Paper>
-                    </div>
-                  )}
-                  {activeStep !== 3 && (
-                    <div className={classes.buttonBar}>
-                      {activeStep !== 2
-                        ? (
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={this.handleBack}
-                            className={classes.backButton}
-                            size='large'>
-                            Back
-                          </Button>
-                        )
-                        : (
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={this.handleBack}
-                            className={classes.backButton}
-                            size='large'>
-                            Cancel
-                          </Button>
-                        )}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                        size='large'
-                        style={this.state.username.length
-                        ? {
-                          background: classes.button,
-                          color: 'white'
-                        }
-                        : {}}
-                        disabled={!this.state.username.length}>
-                        {this.stepActions()}
-                      </Button>
-                    </div>
-                  )}
-
                 </div>
               </Grid>
             </Grid>
@@ -371,4 +236,4 @@ class Signup extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(Signup))
+export default withRouter(withStyles(styles)(Login))

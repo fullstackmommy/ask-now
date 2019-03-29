@@ -1,6 +1,15 @@
 //const productionURL = "https://asknow-api.herokuapp.com/api/v1"
 const devURL = "http://localhost:8080/api/v1"
 
+export async function isValidEvent(eventId) {
+    try {
+        const response = await fetch(`${devURL}/events/${eventId}`)
+        return await response.json()
+    } catch (e) {
+        console.log('Invalid event')
+    }
+}
+
 export async function getQuestions(eventId) {
     const response = await fetch(`${devURL}/events/${eventId}/questions`)
     const data = await response.json();

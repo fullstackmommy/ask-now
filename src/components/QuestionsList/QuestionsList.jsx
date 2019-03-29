@@ -32,26 +32,8 @@ class QuestionsList extends Component {
   state = {
     questions: [],
     searchString: '',
-    filteredList: [],
     updated: false,
     description: ''
-  }
-
-  onSearchInputChange = async(event) => {
-    if (event.target.value) {
-      this.setState({searchString: event.target.value})
-      const filtered = this
-        .state
-        .questions
-        .filter(q => q.description.toLowerCase().includes(this.state.searchString.toLowerCase()))
-
-      this.setState({filteredList: filtered})
-    } else {
-      this.setState({searchString: ''})
-      const allQuestions = await getQuestions(this.props.match.params.id)
-      this.setState({questions: allQuestions, filteredList: allQuestions})
-    }
-
   }
 
   handleVoteClick = async(id) => {
@@ -91,7 +73,7 @@ class QuestionsList extends Component {
   fetchQuestions = async() => {
     try {
       const allQuestions = await getQuestions(this.props.match.params.id)
-      this.setState({questions: allQuestions, filteredList: allQuestions});
+      this.setState({questions: allQuestions});
     } catch (error) {
       console.log(error)
     }
@@ -115,18 +97,6 @@ class QuestionsList extends Component {
           ? (
             <div>
               <Grid container item xs={12}>
-                <Grid item xs={12}>
-                  <div className={classes.headerBar}>
-                    <TextField
-                      style={{
-                      padding: 24
-                    }}
-                      id="searchInput"
-                      placeholder="Search for Questions"
-                      margin="normal"
-                      onChange={this.onSearchInputChange}/>
-                  </div>
-                </Grid>
 
                 <Grid
                   container
@@ -160,7 +130,7 @@ class QuestionsList extends Component {
                   </Grid>
                   {this
                     .state
-                    .filteredList
+                    .questions
                     .map(currentQuestion => (
                       <Grid key={currentQuestion.id} item xs={12} sm={6} lg={4} xl={3}>
                         <Question

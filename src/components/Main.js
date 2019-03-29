@@ -1,164 +1,187 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import {FormControl, TextField, Button, Paper} from "@material-ui/core";
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import {isValidEvent} from '../services/questionService'
 
 const backgroundShape = require('../images/shape.svg');
+
+const logo = require('../images/logo.svg');
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.grey['100'],
+    backgroundColor: theme.palette.secondary['A100'],
     overflow: 'hidden',
     background: `url(${backgroundShape}) no-repeat`,
     backgroundSize: 'cover',
     backgroundPosition: '0 400px',
-    paddingBottom: 200
+    marginTop: 10,
+    padding: 20,
+    paddingBottom: 500
   },
   grid: {
-    width: 1200,
-    marginTop: 40,
-    [
-      theme
-        .breakpoints
-        .down('sm')
-    ]: {
-      width: 'calc(100% - 20px)'
-    }
+    margin: `0 ${theme.spacing.unit * 2}px`
+  },
+  smallContainer: {
+    width: '60%'
+  },
+  bigContainer: {
+    width: '80%'
+  },
+  logo: {
+    marginBottom: 24,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  stepContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  stepGrid: {
+    width: '80%'
+  },
+  buttonBar: {
+    marginTop: 32,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  button: {
+    backgroundColor: theme.palette.primary['A100']
+  },
+  backButton: {
+    marginRight: theme.spacing.unit
+  },
+  outlinedButtom: {
+    textTransform: 'uppercase',
+    margin: theme.spacing.unit
+  },
+  stepper: {
+    backgroundColor: 'transparent'
   },
   paper: {
     padding: theme.spacing.unit * 3,
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
-  rangeLabel: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingTop: theme.spacing.unit * 2
-  },
-  topBar: {
+  topInfo: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 32
+    marginBottom: 42
   },
-  outlinedButtom: {
-    textTransform: 'uppercase',
-    margin: theme.spacing.unit
+  formControl: {
+    width: '100%'
   },
-  actionButtom: {
-    textTransform: 'uppercase',
-    margin: theme.spacing.unit,
-    width: 152
-  },
-  blockCenter: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center'
-  },
-  block: {
-    padding: theme.spacing.unit * 2
-  },
-  box: {
-    marginBottom: 40,
-    height: 65
-  },
-  inlining: {
-    display: 'inline-block',
-    marginRight: 10
-  },
-  alignRight: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  noBorder: {
-    borderBottomStyle: 'hidden'
-  },
-  loadingState: {
-    opacity: 0.05
-  },
-  loadingMessage: {
-    position: 'absolute',
-    top: '40%',
-    left: '40%'
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2
   }
-});
+})
 
 class Main extends Component {
 
   state = {
+    activeStep: 0,
     eventId: '',
-    learnMoredialog: false,
-    getStartedDialog: false
+    labelWidth: 0
+  }
+
+  componentDidMount() {}
+
+  handleNext = async() => {
+    const isValid = await isValidEvent(this.state.eventId)
+    if (!isValid) 
+      this.props.history.push('/')
+    if (isValid) 
+      this.props.history.push(`/events/${this.state.eventId}`)
   };
 
-  componentDidMount() {
-    const id = this.props.match
-      ? this.props.match.params.id
-      : null;
-    this.setState({id})
-  }
-
-  openDialog = (event) => {
-    this.setState({learnMoredialog: true});
-  }
-
-  dialogClose = (event) => {
-    this.setState({learnMoredialog: false});
-  }
-
-  openGetStartedDialog = (event) => {
-    this.setState({getStartedDialog: true});
-  }
-
-  closeGetStartedDialog = (event) => {
-    this.setState({getStartedDialog: false});
-  }
-
-  handleChange = eventId => event => {
-    this.setState({[eventId]: event.target.value});
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   };
+
+  stepActions() {
+    if (this.state.activeStep === 0) {
+      return 'Submit';
+    }
+    return 'Next';
+  }
 
   render() {
-    const {classes} = this.props
+
+    const {classes} = this.props;
+    const {activeStep} = this.state;
 
     return (
       <React.Fragment>
         <CssBaseline/>
         <div className={classes.root}>
           <Grid container justify="center">
-            <Paper>
-              <div
-                style={{
-                display: "flex",
-                justifyContent: "center",
-                margin: 20,
-                padding: 20
-              }}>
-                <form style={{
-                  width: "50%"
-                }}>
-                  <FormControl margin="normal" fullWidth>
-                    <TextField
-                      name='eventId'
-                      label='Event Code'
-                      value={this.state.eventId}
-                      onChange={this.handleChange('eventId')}
-                      margin='normal'/>
-                  </FormControl>
-                  <Link to={`/events/${this.state.eventId}`}>
-                    <Button
-                      className={classes.actionButton}
-                      variant="contained"
-                      color="primary"
-                      size="medium">
-                      Submit
-                    </Button>
-                  </Link>
-                </form>
-              </div>
-            </Paper>
+            <Grid
+              spacing={24}
+              alignItems="center"
+              justify="center"
+              container
+              className={classes.grid}>
+              <Grid item xs={12}>
+                <div className={classes.logo}>
+                  <img width={100} height={100} src={logo} alt=""/>
+                </div>
+                <div className={classes.stepContainer}>
+                  {activeStep === 0 && (
+                    <div className={classes.smallContainer}>
+                      <Paper className={classes.paper}>
+                        <div>
+                          <div>
+                            <Typography
+                              style={{
+                              marginBottom: 20
+                            }}
+                              color='secondary'
+                              gutterBottom>
+                              Enter your event code
+                            </Typography>
+                            <FormControl variant="outlined" className={classes.formControl}>
+                              <TextField
+                                name='eventId'
+                                label='Event Code'
+                                value={this.state.eventId}
+                                onChange={this.handleChange}
+                                margin='normal'/>
+                            </FormControl>
+                          </div>
+                        </div>
+                        <div className={classes.buttonBar}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleNext}
+                            size='large'
+                            style={this.state.eventId.length
+                            ? {
+                              background: classes.button,
+                              color: 'white'
+                            }
+                            : {}}
+                            disabled={!this.state.eventId.length}>
+                            Submit
+                          </Button>
+                        </div>
+                      </Paper>
+                    </div>
+                  )}
+                </div>
+              </Grid>
+            </Grid>
           </Grid>
         </div>
       </React.Fragment>
@@ -166,4 +189,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(Main));
+export default withRouter(withStyles(styles)(Main))
