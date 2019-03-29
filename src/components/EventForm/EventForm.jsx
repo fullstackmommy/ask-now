@@ -72,8 +72,11 @@ class EventForm extends Component {
   componentDidMount() {}
 
   handleChange = ({currentTarget: input}) => {
-    console.log(input.name)
-    console.log(input.value)
+    const data = {
+      ...this.state.data
+    }
+    data[input.name] = input.value;
+    this.setState({data});
   };
 
   handleSubmit = e => {
@@ -82,7 +85,6 @@ class EventForm extends Component {
       ...this.state.data
     }
     saveEvent(newEvent)
-
   }
 
   render() {

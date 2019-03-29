@@ -176,7 +176,9 @@ class Topbar extends Component {
                                             open={this.state.menuDrawer}
                                             onClose={this.mobileMenuClose}
                                             onOpen={this.mobileMenuOpen}>
-                                            <AppBar title="Menu"/>
+                                            <AppBar title="Menu">
+                                                <div></div>
+                                            </AppBar>
                                             <List>
                                                 {Menu.map((item, index) => (
                                                     <ListItem
