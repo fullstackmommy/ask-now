@@ -25,14 +25,7 @@ export class Question extends Component {
   }
 
   render() {
-    const {
-      classes,
-      description,
-      vote,
-      id,
-      handleVoteClick,
-      handleDelete
-    } = this.props
+    const {classes, description, vote, id, handleVoteClick} = this.props
 
     return (
       <div>
@@ -47,9 +40,6 @@ export class Question extends Component {
           </CardContent>
           <CardActions>
             <div className={classes.alignRight}>
-              <Button onClick={() => handleDelete(id)}>
-                Delete
-              </Button>
               <Button
                 variant="contained"
                 size="small"

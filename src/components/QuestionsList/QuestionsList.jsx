@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import Question from '../Question/Question'
 
-import {getQuestions, deleteQuestion, saveQuestion, updateQuestionVote} from '../../services/questionService'
+import {getQuestions, saveQuestion, updateQuestionVote} from '../../services/questionService'
 
 const styles = theme => ({
   button: {
@@ -49,12 +49,6 @@ class QuestionsList extends Component {
     this.setState({questions: copy})
   }
 
-  handleDelete = async(id) => {
-    deleteQuestion(id, this.props.match.params.id)
-    const allQuestions = await getQuestions(this.props.match.params.id)
-    this.setState({questions: allQuestions, filteredList: allQuestions});
-  }
-
   onNewInputChange = (event) => {
     if (event.target.value) {
       this.setState({description: event.target.value})
@@ -87,10 +81,10 @@ class QuestionsList extends Component {
     this.fetchQuestions()
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  /*   async componentDidUpdate(prevProps, prevState) {
     this._isMounted = true
     this.fetchQuestions()
-  }
+  } */
 
   componentWillUnmount() {
     this._isMounted = false
@@ -148,8 +142,7 @@ class QuestionsList extends Component {
                           description={currentQuestion.description}
                           vote={currentQuestion.vote}
                           updated={this.state.updated}
-                          handleVoteClick={this.handleVoteClick}
-                          handleDelete={this.handleDelete}/></Grid>
+                          handleVoteClick={this.handleVoteClick}/></Grid>
                     ))}
                 </Grid>
               </Grid>

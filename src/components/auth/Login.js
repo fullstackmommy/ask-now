@@ -8,13 +8,13 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import Back from '../common/Back';
+import auth from './auth-helper'
+import {signin} from '../../services/userService';
 
-import Back from './common/Back';
-import {signin} from '../services/eventService';
+const backgroundShape = require('../../images/shape.svg');
 
-const backgroundShape = require('../images/shape.svg');
-
-const logo = require('../images/logo.svg');
+const logo = require('../../images/logo.svg')
 
 const styles = theme => ({
   root: {
@@ -32,10 +32,10 @@ const styles = theme => ({
     margin: `0 ${theme.spacing.unit * 2}px`
   },
   smallContainer: {
-    width: '60%'
+    width: '40%'
   },
   bigContainer: {
-    width: '80%'
+    width: '60%'
   },
   logo: {
     marginBottom: 24,
@@ -80,8 +80,11 @@ class Login extends Component {
     signin(this.state.username, this.state.password).then((data) => {
       if (data.error) {
         this.setState({error: data.error, redirect: false})
-      } else 
-        this.setState({redirect: true})
+      } else {
+        auth.authenticate(data, () => {
+          this.setState({redirect: true})
+        })
+      }
     })
   };
 

@@ -30,7 +30,7 @@ const styles = theme => ({
     margin: `0 ${theme.spacing.unit * 2}px`
   },
   smallContainer: {
-    width: '60%'
+    width: '40%'
   },
   bigContainer: {
     width: '80%'

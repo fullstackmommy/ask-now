@@ -5,11 +5,7 @@ const Menu = [
     }, {
         label: "Dashboard",
         pathname: "/dashboard"
-    }, {
-        label: "Login",
-        pathname: "/login"
     }
-
 ];
 
 export default Menu;
