@@ -9,7 +9,8 @@
     "contentful": "^7.4.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "react-scripts": "2.1.8"

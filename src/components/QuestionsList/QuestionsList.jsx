@@ -113,7 +113,7 @@ class QuestionsList extends Component {
                         <Typography component="h2">
                           <TextField
                             className={classes.textField}
-                            fullWidth
+                            fullwidth
                             id="questionDesc"
                             label="Question"
                             value={this.state.description}

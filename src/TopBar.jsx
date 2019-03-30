@@ -5,15 +5,16 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+// import Tabs from '@material-ui/core/Tabs'; import Tab from
+// '@material-ui/core/Tab';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+//import ListItemText from '@material-ui/core/ListItemText';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Menu from './components/Menu'
+//import Menu from './components/Menu'
 import auth from './components/auth/auth-helper'
 
 const logo = require('./images/logo.svg');
@@ -105,9 +106,12 @@ const styles = theme => ({
 class Topbar extends Component {
 
   state = {
-    value: 0,
     menuDrawer: false
   };
+
+  handleLogin = () => {
+    return (<Redirect to="/login"/>)
+  }
 
   handleChange = (event, value) => {
     this.setState({value});
@@ -132,6 +136,7 @@ class Topbar extends Component {
     if (this.props.currentPath === '/dashboard') {
       return 1
     }
+    return 0
   }
 
   render() {
@@ -178,54 +183,31 @@ class Topbar extends Component {
                         <div></div>
                       </AppBar>
                       <List>
-                        {Menu.map((item, index) => (
-                          <ListItem
-                            component={Link}
-                            to={{
-                            pathname: item.pathname,
-                            search: this.props.location.search
-                          }}
-                            button
-                            key={item.label}>
-                            <ListItemText primary={item.label}/>
-                          </ListItem>
-                        ))}
+                        {!auth.isAuthenticated() && <Link to='login'>
+                          <ListItem>Admin</ListItem>
+                        </Link>}
+                        {auth.isAuthenticated() && (
+                          <span>
+                            <ListItem onClick={() => this.props.history.push('/dashboard')}>Dashboard</ListItem>
+                            <ListItem onClick={() => auth.signout(() => this.props.history.push('/'))}>Logout</ListItem>
+                          </span>
+                        )}
                       </List>
                     </SwipeableDrawer>
-                    <Tabs
-                      value={this.current() || this.state.value}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      onChange={this.handleChange}>
-                      {Menu.map((item, index) => (<Tab
-                        key={index}
-                        component={Link}
-                        to={{
-                        pathname: item.pathname,
-                        search: this.props.location.search
-                      }}
-                        classes={{
-                        root: classes.tabItem
-                      }}
-                        label={item.label}/>))}
-                      {!auth.isAuthenticated() && (<Tab
-                        component={Link}
-                        to={{
-                        pathname: "/login",
-                        search: this.props.location.search
-                      }}
-                        classes={{
-                        root: classes.tabItem
-                      }}
-                        label="Login"/>)}
-                      {auth.isAuthenticated() && (
-                        <Tab
-                          label="Logout"
-                          onClick={() => auth.signout(() => {
-                          return <Redirect to="/"/>
-                        })}/>
-                      )}
-                    </Tabs>
+                    {!auth.isAuthenticated() && <Link to="/login">
+                      <Button>Admin
+                      </Button>
+                    </Link>}
+                    {auth.isAuthenticated() && (
+                      <span>
+                        <Link to="/dashboard">
+                          <Button>Dashboard
+                          </Button>
+                        </Link>
+                        <Button onClick={() => auth.signout(() => this.props.history.push('/'))}>Logout
+                        </Button>
+                      </span>
+                    )}
                   </div>
                 </React.Fragment>
               )}

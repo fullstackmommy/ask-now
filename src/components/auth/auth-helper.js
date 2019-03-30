@@ -4,7 +4,6 @@ const auth = {
             return false
 
         if (sessionStorage.getItem('jwt')) {
-            console.log(JSON.stringify(sessionStorage.getItem('jwt')))
             return JSON.parse(sessionStorage.getItem('jwt'))
         } else {
             return false
@@ -16,7 +15,6 @@ const auth = {
         cb()
     },
     signout(cb) {
-        console.log("sign out")
         if (typeof window !== "undefined") 
             sessionStorage.removeItem('jwt')
         cb()
