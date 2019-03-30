@@ -39,7 +39,6 @@ class QuestionsList extends Component {
     searchString: '',
     updated: false,
     description: '',
-    endpoint: "http://localhost:8080",
     response: ''
   }
 
@@ -85,9 +84,17 @@ class QuestionsList extends Component {
   async componentDidMount() {
     this._isMounted = true
     this.fetchQuestions()
-    const {endpoint} = this.state;
-    const socket = socketIOClient(endpoint, {transports: ['websocket']});
+
+    const endpoint = () => {
+      if (process.env.NODE_ENV === "production") {
+        return "https://asknow-api.herokuapp.com"
+      } else {
+        return "http://localhost:8080"
+      }
+    }
+    const socket = socketIOClient(endpoint(), {transports: ['websocket']});
     socket.on("FromAPI", data => {
+      console.log(data)
       this.setState({response: data})
     });
   }

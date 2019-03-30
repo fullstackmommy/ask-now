@@ -1,3 +1,5 @@
+import auth from '../components/auth/auth-helper'
+
 const getURL = () => {
     if (process.env.NODE_ENV === "production") {
         return "https://asknow-api.herokuapp.com"
@@ -27,7 +29,15 @@ export async function getAllEvents() {
 }
 
 export async function deleteEvent(eventId) {
-    return fetch(`${baseURL}/api/v1/events/${eventId}`, {method: 'DELETE'})
+    const jwt = auth.isAuthenticated()
+    return fetch(`${baseURL}/api/v1/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt.token
+            }
+        })
         .then(res => res.json())
         .catch(err => {
             console.log(err);
@@ -36,9 +46,14 @@ export async function deleteEvent(eventId) {
 
 export async function saveEvent(event) {
     try {
+        const jwt = auth.isAuthenticated()
         const response = await fetch(`${baseURL}/api/v1/events/`, {
             method: 'POST',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt.token
+            },
             body: JSON.stringify({
                 id: event.id,
                 name: event.name,
