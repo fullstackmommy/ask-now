@@ -20,9 +20,9 @@ const theme = createMuiTheme({
     fontFamily: ['"Lato"', 'sans-serif'].join(',')
   },
   overrides: {
-    MuiButton: { // Name of the component ⚛️ / style sheet
-      text: { // Name of the rule
-        color: 'white', // Some CSS,
+    MuiButton: {
+      text: {
+        color: 'white',
         textTransform: 'none',
         fontWeightMedium: 500
       }

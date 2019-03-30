@@ -10,6 +10,10 @@ const styles = theme => ({
   alignRight: {
     display: 'flex',
     justifyContent: 'flex-end'
+  },
+  description: {},
+  vote: {
+    marginTop: 20
   }
 });
 
@@ -31,29 +35,26 @@ export class Question extends Component {
       <div>
         <Card>
           <CardContent>
-            <Typography component="h2">
+            <Typography component="h2" className ={classes.description}>
               {description}
             </Typography>
-            <Typography component="p">
+            <Typography component="p" className={classes.vote}>
               Number of votes: {vote}
             </Typography>
           </CardContent>
-          <CardActions>
-            <div className={classes.alignRight}>
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={() => handleVoteClick(id)}>
-                {this.setVoteText()}
-              </Button>
-            </div>
+          <CardActions className={classes.alignRight}>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={() => handleVoteClick(id)}>
+              {this.setVoteText()}
+            </Button>
           </CardActions>
         </Card>
       </div>
     )
   }
-
 }
 
 export default withStyles(styles)(Question)

@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import {isValidEvent} from '../services/questionService'
+import {isValidEvent} from '../services/eventService'
 
 const backgroundShape = require('../images/shape.svg');
 

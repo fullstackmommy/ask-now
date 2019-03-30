@@ -8,16 +8,6 @@ const getURL = () => {
 
 const baseURL = getURL()
 
-export async function isValidEvent(eventId) {
-    try {
-        const response = await fetch(`${baseURL}/events/${eventId}`)
-        return await response.json()
-    } catch (e) {
-        console.error(e)
-        alert('Please enter valid event code')
-    }
-}
-
 export async function getQuestions(eventId) {
     const response = await fetch(`${baseURL}/events/${eventId}/questions`)
     const data = await response.json();

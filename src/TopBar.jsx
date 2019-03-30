@@ -5,16 +5,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-// import Tabs from '@material-ui/core/Tabs'; import Tab from
-// '@material-ui/core/Tab';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-//import ListItemText from '@material-ui/core/ListItemText';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-//import Menu from './components/Menu'
 import auth from './components/auth/auth-helper'
 
 const logo = require('./images/logo.svg');
@@ -101,8 +97,7 @@ const styles = theme => ({
     paddingTop: 20,
     paddingBottom: 20,
     minWidth: 'auto'
-  },
-  tabDiv: {}
+  }
 })
 
 class Topbar extends Component {
@@ -129,16 +124,6 @@ class Topbar extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-  }
-
-  current = () => {
-    if (this.props.currentPath === '/home') {
-      return 0
-    }
-    if (this.props.currentPath === '/dashboard') {
-      return 1
-    }
-    return 0
   }
 
   render() {
@@ -188,7 +173,7 @@ class Topbar extends Component {
                         {!auth.isAuthenticated() && <ListItem onClick={() => auth.signout(() => this.props.history.push('/login'))}>Admin</ListItem>
 }
                         {auth.isAuthenticated() && (
-                          <div className={classes.tabDiv}>
+                          <div>
                             <ListItem onClick={() => this.props.history.push('/dashboard')}>Dashboard</ListItem>
                             <ListItem onClick={() => auth.signout(() => this.props.history.push('/'))}>Logout</ListItem>
                           </div>

@@ -26,6 +26,9 @@ const styles = theme => ({
   headerBar: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  textField: {
+    width: '100%'
   }
 });
 class QuestionsList extends Component {
@@ -85,9 +88,7 @@ class QuestionsList extends Component {
     const {endpoint} = this.state;
     const socket = socketIOClient(endpoint, {transports: ['websocket']});
     socket.on("FromAPI", data => {
-      console.log(data)
       this.setState({response: data})
-      //socket.emit('FromClient', 'test3')
     });
   }
 
@@ -124,7 +125,6 @@ class QuestionsList extends Component {
                         <Typography component="h2">
                           <TextField
                             className={classes.textField}
-                            fullwidth="true"
                             id="questionDesc"
                             label="Question"
                             value={this.state.description}
