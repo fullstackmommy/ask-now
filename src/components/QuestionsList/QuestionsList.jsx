@@ -62,7 +62,7 @@ class QuestionsList extends Component {
     const newDescription = this.state.description
     saveQuestion(newDescription, this.props.match.params.id)
     const allQuestions = await getQuestions(this.props.match.params.id)
-    this.setState({questions: allQuestions, filteredList: allQuestions});
+    this.setState({questions: allQuestions});
   }
 
   fetchQuestions = async() => {
@@ -81,10 +81,10 @@ class QuestionsList extends Component {
     this.fetchQuestions()
   }
 
-  /*   async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     this._isMounted = true
     this.fetchQuestions()
-  } */
+  }
 
   componentWillUnmount() {
     this._isMounted = false

@@ -12,7 +12,6 @@ export function signin(username, password) {
   return fetch(`${baseURL}/auth/signin`, {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
-      credentials: 'include',
       body: JSON.stringify({username: username, password: password})
     })
     .then(res => res.json())

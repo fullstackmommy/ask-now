@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter, Redirect} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -132,9 +132,6 @@ class Topbar extends Component {
     if (this.props.currentPath === '/dashboard') {
       return 1
     }
-    if (this.props.currentPath === '/login') {
-      return 2
-    }
   }
 
   render() {
@@ -211,7 +208,7 @@ class Topbar extends Component {
                         root: classes.tabItem
                       }}
                         label={item.label}/>))}
-                      {auth.isAuthenticated() && (<Tab
+                      {!auth.isAuthenticated() && (<Tab
                         component={Link}
                         to={{
                         pathname: "/login",
@@ -221,16 +218,13 @@ class Topbar extends Component {
                         root: classes.tabItem
                       }}
                         label="Login"/>)}
-                      {!auth.isAuthenticated() && (<Tab
-                        component={Link}
-                        to={{
-                        pathname: "/",
-                        search: this.props.location.search
-                      }}
-                        classes={{
-                        root: classes.tabItem
-                      }}
-                        label="Logout"/>)}
+                      {auth.isAuthenticated() && (
+                        <Tab
+                          label="Logout"
+                          onClick={() => auth.signout(() => {
+                          return <Redirect to="/"/>
+                        })}/>
+                      )}
                     </Tabs>
                   </div>
                 </React.Fragment>
