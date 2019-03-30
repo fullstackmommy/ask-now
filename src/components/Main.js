@@ -149,7 +149,7 @@ class Main extends Component {
                           style={this.state.eventId.length
                           ? {
                             background: classes.button,
-                            color: 'white'
+                            color: 'blue'
                           }
                           : {}}
                           disabled={!this.state.eventId.length}>

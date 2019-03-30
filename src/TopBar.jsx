@@ -87,6 +87,7 @@ const styles = theme => ({
     float: 'right'
   },
   tabContainer: {
+    alignSelf: 'center',
     marginLeft: 32,
     [
       theme
@@ -101,10 +102,7 @@ const styles = theme => ({
     paddingBottom: 20,
     minWidth: 'auto'
   },
-  tab_button: {
-    color: 'red',
-    height: 48
-  }
+  tabDiv: {}
 })
 
 class Topbar extends Component {
@@ -187,30 +185,27 @@ class Topbar extends Component {
                         <div></div>
                       </AppBar>
                       <List>
-                        {!auth.isAuthenticated() && <Link to='login'>
-                          <ListItem>Admin</ListItem>
-                        </Link>}
+                        {!auth.isAuthenticated() && <ListItem onClick={() => auth.signout(() => this.props.history.push('/login'))}>Admin</ListItem>
+}
                         {auth.isAuthenticated() && (
-                          <span>
+                          <div className={classes.tabDiv}>
                             <ListItem onClick={() => this.props.history.push('/dashboard')}>Dashboard</ListItem>
                             <ListItem onClick={() => auth.signout(() => this.props.history.push('/'))}>Logout</ListItem>
-                          </span>
+                          </div>
                         )}
                       </List>
                     </SwipeableDrawer>
-                    {!auth.isAuthenticated() && <Link to="/login">
-                      <Button
-                        classes={{
-                        label: 'tab_button'
-                      }}>Admin
-                      </Button>
-                    </Link>}
+                    {!auth.isAuthenticated() && <Button
+                      onClick={() => auth.signout(() => this.props.history.push('/login'))}
+                      classes={{
+                      label: 'tab_button'
+                    }}>Admin
+                    </Button>
+}
                     {auth.isAuthenticated() && (
                       <span>
-                        <Link to="/dashboard">
-                          <Button>Dashboard
-                          </Button>
-                        </Link>
+                        <Button onClick={() => this.props.history.push('/dashboard')}>Dashboard
+                        </Button>
                         <Button onClick={() => auth.signout(() => this.props.history.push('/'))}>Logout
                         </Button>
                       </span>

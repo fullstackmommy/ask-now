@@ -18,6 +18,15 @@ const theme = createMuiTheme({
     // Use the system font instead of the default Roboto font.
     useNextVariants: true,
     fontFamily: ['"Lato"', 'sans-serif'].join(',')
+  },
+  overrides: {
+    MuiButton: { // Name of the component ⚛️ / style sheet
+      text: { // Name of the rule
+        color: 'white', // Some CSS,
+        textTransform: 'none',
+        fontWeightMedium: 500
+      }
+    }
   }
 });
 class App extends Component {

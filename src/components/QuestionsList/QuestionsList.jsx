@@ -8,7 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import Question from '../Question/Question'
-//import socketIOClient from "socket.io-client";
+import socketIOClient from "socket.io-client";
 
 import {getQuestions, saveQuestion, updateQuestionVote} from '../../services/questionService'
 
@@ -36,7 +36,8 @@ class QuestionsList extends Component {
     searchString: '',
     updated: false,
     description: '',
-    //endpoint: "http://localhost:8080"
+    endpoint: "http://localhost:8080",
+    response: ''
   }
 
   handleVoteClick = async(id) => {
@@ -81,10 +82,13 @@ class QuestionsList extends Component {
   async componentDidMount() {
     this._isMounted = true
     this.fetchQuestions()
-    /*
     const {endpoint} = this.state;
     const socket = socketIOClient(endpoint, {transports: ['websocket']});
-    */
+    socket.on("FromAPI", data => {
+      console.log(data)
+      this.setState({response: data})
+      //socket.emit('FromClient', 'test3')
+    });
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -105,8 +109,9 @@ class QuestionsList extends Component {
         {this.state.questions
           ? (
             <div>
+              {(this.state.response > 1) && <div>Hurry! {this.state.response - 1}
+                &nbsp; other people getting ready to post a question!</div>}
               <Grid container item xs={12}>
-
                 <Grid
                   container
                   spacing={24}
@@ -130,7 +135,7 @@ class QuestionsList extends Component {
                       </CardContent>
                       <CardActions>
                         <div className={classes.alignRight}>
-                          <Button onClick={this.handleNewClick}>
+                          <Button onClick={this.handleNewClick} color="primary" variant="contained">
                             Submit
                           </Button>
                         </div>

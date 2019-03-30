@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import red from '@material-ui/core/colors/red';
+import blue from '@material-ui/core/colors/blue';
 import Icon from '@material-ui/core/Icon';
 import EventTable from './EventTable/EventTable'
 import Back from './common/Back';
@@ -62,7 +62,7 @@ const styles = theme => ({
   iconHover: {
     margin: theme.spacing.unit * 2,
     '&:hover': {
-      color: red[800]
+      color: blue[800]
     }
   }
 })
