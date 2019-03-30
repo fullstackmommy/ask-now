@@ -29,6 +29,10 @@ const styles = theme => ({
   },
   textField: {
     width: '100%'
+  },
+  nudgeText: {
+    paddingTop: 10,
+    paddingLeft: 10
   }
 });
 class QuestionsList extends Component {
@@ -94,7 +98,6 @@ class QuestionsList extends Component {
     }
     const socket = socketIOClient(endpoint(), {transports: ['websocket']});
     socket.on("FromAPI", data => {
-      console.log(data)
       this.setState({response: data})
     });
   }
@@ -116,7 +119,7 @@ class QuestionsList extends Component {
         {this.state.questions === null && <p>Loading questions...</p>}
         {this.state.questions
           ? (
-            <div>
+            <div className={classes.nudgeText}>
               {(this.state.response > 1) && <div>Hurry! {this.state.response - 1}
                 &nbsp; other people getting ready to post a question!</div>}
               <Grid container item xs={12}>

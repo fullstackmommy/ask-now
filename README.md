@@ -1,68 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# AskNow
 
-## Available Scripts
+Sometimes things need to be asked, and you don’t want to be the one to say them out loud. Or simply, you may not remember that burning question anymore by the time the Q&A session begins.
 
-In the project directory, you can run:
+This react app aims to make it simple for audience, especially the quiet type, to ask questions any time during a presentation. As questions appear onscreen, the audience may upvote the one they like. Other than as a feedback on general questions from the audience, this ranking feature gives insights to the speaker/moderator about which (most burning) questions they should spend time discussing during the Q&A session.
 
-### `npm start`
+Another potential use is for collecting questions and identify popular questions prior to the event. This enables the speaker to tailor the content or structure of his/her upcoming presentation based on what the audience wants/needs.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Basic features included in this version:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+1. Allow audience to post questions anonymously
+2. The best questions rise to the top of the list, and the rest fall to the bottom.
+3. Allow admin/moderator to create and delete an event code
+4. Gamification:
 
-### `npm test`
+Potential features to be added:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Allow admin/moderator to delete any obnoxious question
+2. Allow search questions by keywords
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+###Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Here are the steps to download a local copy of the app
 
-### `npm run eject`
+1. Fork the repo
+2. \$ git clone ....
+3. \$ npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Deployment
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Use netlify to deploy:
+https://asknow.netlify.com/
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Built With
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [create-react-app](https://www.npmjs.com/package/create-react-app)
+- [material-ui](https://material-ui.com) (Info Window typography)
 
-## Learn More
+### Prerequisites
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+What things you need to install the software and how to install them
+Library used:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. react-router-dom
+2. @material-ui/icons
+3. react-testing-library
+4. socket.io-client
 
-### Code Splitting
+## Running the tests
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+\$ npm test
 
-### Analyzing the Bundle Size
+### Break down into end to end tests
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Explain what these tests test and why
 
-### Making a Progressive Web App
+```
+Give an example
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Contributing
 
-### Advanced Configuration
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Versioning
 
-### Deployment
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Authors
 
-### `npm run build` fails to minify
+## License
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+- Hat tip to anyone whose code was used
+- Inspiration
+- etc
