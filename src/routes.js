@@ -12,7 +12,7 @@ export default props => (
   <BrowserRouter>
     <Topbar/>
     <Switch>
-      <Route exact path='/events/new' component={EventForm}/>
+      <PrivateRoute exact path='/events/new' component={EventForm}/>
       <Route
         exact
         path='/events/:id'

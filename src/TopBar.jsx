@@ -100,6 +100,10 @@ const styles = theme => ({
     paddingTop: 20,
     paddingBottom: 20,
     minWidth: 'auto'
+  },
+  tab_button: {
+    color: 'red',
+    height: 48
   }
 })
 
@@ -195,7 +199,10 @@ class Topbar extends Component {
                       </List>
                     </SwipeableDrawer>
                     {!auth.isAuthenticated() && <Link to="/login">
-                      <Button>Admin
+                      <Button
+                        classes={{
+                        label: 'tab_button'
+                      }}>Admin
                       </Button>
                     </Link>}
                     {auth.isAuthenticated() && (

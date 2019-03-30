@@ -25,9 +25,10 @@ export async function deleteEvent(eventId) {
 }
 
 export async function saveEvent(event) {
-    return fetch(`${baseURL}/api/v1/events/`, {
-        method: 'POST',
-        headers: new Headers({'Content-Type': 'application/json'}),
+    try {
+        const response = await fetch(`${baseURL}/api/v1/events/`, {
+            method: 'POST',
+            headers: new Headers({'Content-Type': 'application/json'}),
             body: JSON.stringify({
                 id: event.id,
                 name: event.name,
@@ -38,8 +39,9 @@ export async function saveEvent(event) {
                 venue: event.venue
             })
         })
-        .then(res => res.json())
-        .catch(err => {
-            console.log(err);
-        });
+        return await response.json()
+    } catch (e) {
+        console.error(e)
+        alert('Event code is already used')
+    }
 }

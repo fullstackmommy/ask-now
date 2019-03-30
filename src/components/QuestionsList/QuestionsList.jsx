@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import Question from '../Question/Question'
+//import socketIOClient from "socket.io-client";
 
 import {getQuestions, saveQuestion, updateQuestionVote} from '../../services/questionService'
 
@@ -34,7 +35,8 @@ class QuestionsList extends Component {
     questions: [],
     searchString: '',
     updated: false,
-    description: ''
+    description: '',
+    //endpoint: "http://localhost:8080"
   }
 
   handleVoteClick = async(id) => {
@@ -79,6 +81,10 @@ class QuestionsList extends Component {
   async componentDidMount() {
     this._isMounted = true
     this.fetchQuestions()
+    /*
+    const {endpoint} = this.state;
+    const socket = socketIOClient(endpoint, {transports: ['websocket']});
+    */
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -113,7 +119,7 @@ class QuestionsList extends Component {
                         <Typography component="h2">
                           <TextField
                             className={classes.textField}
-                            fullwidth
+                            fullwidth="true"
                             id="questionDesc"
                             label="Question"
                             value={this.state.description}

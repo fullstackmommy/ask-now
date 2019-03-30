@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
 import {saveEvent} from '../../services/eventService';
 
 const backgroundShape = require('../../images/shape.svg');
@@ -66,7 +67,8 @@ class EventForm extends Component {
       startDate: '',
       endDate: '',
       venue: ''
-    }
+    },
+    error: ''
   }
 
   componentDidMount() {}
@@ -79,12 +81,21 @@ class EventForm extends Component {
     this.setState({data});
   };
 
-  handleSubmit = e => {
+  handleSubmit = async(e) => {
     e.preventDefault()
     let newEvent = {
       ...this.state.data
     }
-    saveEvent(newEvent)
+    saveEvent(newEvent).then((d) => {
+      if (d.error) {
+        this.setState({error: d.error.message})
+      } else {
+        this
+          .props
+          .history
+          .push('/dashboard')
+      }
+    })
   }
 
   render() {
@@ -161,6 +172,11 @@ class EventForm extends Component {
                             margin='normal'/>
                         </FormControl>
                       </div>
+                      <br/> {this.state.error && (
+                        <Typography component="p" color="error">
+                          {this.state.error}
+                        </Typography>
+                      )}
                       <div className={classes.buttonBar}>
                         <Button
                           variant="contained"
