@@ -17,6 +17,7 @@ Potential features to be added:
 
 1. Allow admin/moderator to delete any obnoxious question
 2. Allow search questions by keywords
+3. Real-time Polling
 
 ## Getting Started
 

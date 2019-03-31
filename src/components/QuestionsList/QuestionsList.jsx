@@ -68,10 +68,12 @@ class QuestionsList extends Component {
 
   handleNewClick = async(event) => {
     event.preventDefault()
-    const newDescription = this.state.description
-    saveQuestion(newDescription, this.props.match.params.id)
-    const allQuestions = await getQuestions(this.props.match.params.id)
-    this.setState({questions: allQuestions});
+    if (this.state.description) {
+      const newDescription = this.state.description
+      saveQuestion(newDescription, this.props.match.params.id)
+      const allQuestions = await getQuestions(this.props.match.params.id)
+      this.setState({description: '', questions: allQuestions});
+    }
   }
 
   fetchQuestions = async() => {
