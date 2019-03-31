@@ -11,6 +11,7 @@ import Question from '../Question/Question'
 import socketIOClient from "socket.io-client";
 
 import {getQuestions, saveQuestion, updateQuestionVote} from '../../services/questionService'
+import quotes from "../../lib/quotes"
 
 const styles = theme => ({
   button: {
@@ -43,7 +44,14 @@ class QuestionsList extends Component {
     searchString: '',
     updated: false,
     description: '',
-    response: ''
+    response: '',
+    quote: ''
+  }
+
+  getQuote = quotes => {
+    let number = 0
+    number = Math.floor(Math.random() * quotes.length)
+    this.setState({quote: quotes[number]})
   }
 
   handleVoteClick = async(id) => {
@@ -89,6 +97,7 @@ class QuestionsList extends Component {
 
   async componentDidMount() {
     this._isMounted = true
+    this.getQuote(quotes)
     this.fetchQuestions()
 
     const endpoint = () => {
@@ -122,8 +131,11 @@ class QuestionsList extends Component {
         {this.state.questions
           ? (
             <div className={classes.nudgeText}>
-              {(this.state.response > 1) && <div>Hurry! {this.state.response - 1}
-                &nbsp; other people getting ready to post a question!</div>}
+              {(this.state.response > 1) && <div>
+                <div>{this.state.quote}</div>
+                <div>Hurry, {this.state.response - 1}
+                  &nbsp; other people getting ready to post a question!</div>
+              </div>}
               <Grid container item xs={12}>
                 <Grid
                   container
