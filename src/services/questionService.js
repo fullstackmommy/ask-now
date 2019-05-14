@@ -17,7 +17,7 @@ export async function getQuestions(eventId) {
 }
 
 export async function saveQuestion(questionDesc, eventId) {
-    await fetch(`${baseURL}/events/${eventId}/questions/`, {
+    return await fetch(`${baseURL}/events/${eventId}/questions/`, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json'}),
         body: JSON.stringify({description: questionDesc, event: eventId})
